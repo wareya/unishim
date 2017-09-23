@@ -1,4 +1,4 @@
-#include "unishim.h"
+#include "unishim_split.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -10,10 +10,17 @@ int main()
 {
     int status = 0;
     
+    // utf-16 -> utf-8
+    //puts((char *)utf16_to_utf8((uint16_t *)test, &status));
+    
     // utf-16 -> utf-8 -> utf-16 -> utf-8
     //puts((char *)utf16_to_utf8(utf8_to_utf16(utf16_to_utf8((uint16_t *)test, &status), &status), &status));
     
+    // utf-16 -> utf-8 -> utf-16
+    //fputs((char *)utf8_to_utf16(utf16_to_utf8((uint16_t *)test, &status), &status), stdout);
+    
     // utf-16 -> utf-8 -> utf-32
+    
     /*
     uint32_t * s = utf8_to_utf32(utf16_to_utf8((uint16_t *)test, &status), &status);
     while(1)

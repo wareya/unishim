@@ -1,14 +1,13 @@
+#ifndef INCLUDE_UNISHIM_H
+#define INCLUDE_UNISHIM_H
+
 /* unishim.h - C99/C++ utf-8/utf-16/utf-32 conversion header
 
 This file is released to the public domain under US law,
 and also released under any version of the Creative Commons Zero license: 
 https://creativecommons.org/publicdomain/zero/1.0/
 https://creativecommons.org/publicdomain/zero/1.0/legalcode
-
 */
-
-#ifndef INCLUDE_UNISHIM_H
-#define INCLUDE_UNISHIM_H
 
 #include <stdint.h>
 #include <stdlib.h>
@@ -236,7 +235,7 @@ uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
             counter += 3;
         }
         // four byte
-        else
+        else if(counter[0] < 0xF8)
         {
             for(int index = 1; index <= 3; index++)
             {
@@ -255,6 +254,11 @@ uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
             }
             len += 4;
             counter += 4;
+        }
+        else
+        {
+            *status = 1;
+            return 0;
         }
     }
     counter = utf8;
@@ -317,7 +321,7 @@ uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
                 utf16[i++] = codepoint;
             counter += 3;
         }
-        else
+        else if(counter[0] < 0xF8)
         {
             uint32_t top = counter[0]&0x07;
             uint32_t high = counter[1]&0x3F;
@@ -350,6 +354,11 @@ uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
                 utf16[i++] = lower;
             }
             counter += 4;
+        }
+        else
+        {
+            *status = 1;
+            return 0;
         }
     }
     return utf16;
@@ -535,7 +544,7 @@ uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
             counter += 3;
         }
         // four byte
-        else
+        else if(counter[0] < 0xF8)
         {
             for(int index = 1; index <= 3; index++)
             {
@@ -554,6 +563,11 @@ uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
             }
             len += 4;
             counter += 4;
+        }
+        else
+        {
+            *status = 1;
+            return 0;
         }
     }
     counter = utf8;
@@ -616,7 +630,7 @@ uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
                 utf32[i++] = codepoint;
             counter += 3;
         }
-        else
+        else if(counter[0] < 0xF8)
         {
             uint32_t top = counter[0]&0x07;
             uint32_t high = counter[1]&0x3F;
@@ -643,6 +657,11 @@ uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
                 utf32[i++] = codepoint;
             }
             counter += 4;
+        }
+        else
+        {
+            *status = 1;
+            return 0;
         }
     }
     return utf32;
