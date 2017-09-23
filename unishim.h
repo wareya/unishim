@@ -161,7 +161,7 @@ assumes that the utf-16 string is in native endian
 
 if an error is encountered, sets status and returns 0:
 0 - no error
-1 - continuation byte encountered where initial byte expected
+1 - continuation byte encountered where initial byte expected, or initial byte is illegal
 2 - null encountered when continuation byte expected
 3 - initial byte encountered where continuation byte expected
 4 - decoded into utf-16 surrogate, which is not a true codepoint
@@ -470,7 +470,7 @@ assumes that the utf-32 string is in native endian
 
 if an error is encountered, sets status and returns 0:
 0 - no error
-1 - continuation byte encountered where initial byte expected
+1 - continuation byte encountered where initial byte expected, or initial byte is illegal
 2 - null encountered when continuation byte expected
 3 - initial byte encountered where continuation byte expected
 4 - decoded into utf-16 surrogate, which is not a true codepoint

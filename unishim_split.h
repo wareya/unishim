@@ -532,6 +532,7 @@ int utf32_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 // If there is any error, status is set to nonzero as described above,
 //  and if the return buffer was allocated yet, it's freed.
 // If there is any error, 0 is returned. Otherwise, the allocated converted buffer is returned.
+// If there's an allocation error, 7 is returned. For ALL conversion functions.
 
 uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
 {
@@ -546,7 +547,7 @@ uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
     uint16_t * utf16 = (uint16_t *)malloc((length+1)*sizeof(uint16_t));
     if(!utf16)
     {
-        *status = return_status;
+        *status = 7;
         return 0;
     }
     uint16_t * utf16_reference = utf16;
@@ -574,7 +575,7 @@ uint8_t * utf16_to_utf8(uint16_t * utf16, int * status)
     uint8_t * utf8 = (uint8_t *)malloc((length+1)*sizeof(uint8_t));
     if(!utf8)
     {
-        *status = return_status;
+        *status = 7;
         return 0;
     }
     uint8_t * utf8_reference = utf8;
@@ -602,7 +603,7 @@ uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
     uint32_t * utf32 = (uint32_t *)malloc((length+1)*sizeof(uint32_t));
     if(!utf32)
     {
-        *status = return_status;
+        *status = 7;
         return 0;
     }
     uint32_t * utf32_reference = utf32;
