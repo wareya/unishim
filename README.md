@@ -23,14 +23,17 @@ assumes that the utf-16 string is in native endian
 
 if an error is encountered, sets status and returns 0:
 
-    0 - no error
-    1 - second surrogate where simple codepoint or first surrogate expected
-    2 - null where second surrogate expected
-    3 - first surrogate or simple codepoint where second surrogate expected
-    4 - failed to allocate return buffer
+```
+0 - no error
+1 - second surrogate where simple codepoint or first surrogate expected
+2 - null where second surrogate expected
+3 - first surrogate or simple codepoint where second surrogate expected
+4 - failed to allocate return buffer
+```
 
-
-    uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
+```
+uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
+```
 
 allocates and returns a utf-16 string converted from the utf-8 one
 
