@@ -1,5 +1,5 @@
 # unishim
-unishim.h - C90 utf-8/utf-16/utf-32 conversion header
+unishim.h - C99/C++ utf-8/utf-16/utf-32 conversion header
 
 # summary
 
