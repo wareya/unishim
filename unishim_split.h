@@ -535,11 +535,10 @@ int utf32_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 // If there's any error iterating over the UTF-X string,
 // Status is set to the status code from utfX_iterate (see top of file). This is 0 if there is no error.
 // If there's an internal logic error (about codepoint encoding length), status is set to -2
+// If there's an allocation error, status is set to 7 and 0 is returned. For ALL conversion functions.
 // If there is no error, status is set to 0.
-// If there is any error, status is set to nonzero as described above,
-//  and if the return buffer was allocated yet, it's freed.
+// If there is any error, status is set to nonzero as described above, and any allocated buffer is freed.
 // If there is any error, 0 is returned. Otherwise, the allocated converted buffer is returned.
-// If there's an allocation error, 7 is returned. For ALL conversion functions.
 
 uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
 {
