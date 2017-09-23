@@ -1,3 +1,12 @@
+/* unishim.h - C99/C++ utf-8/utf-16/utf-32 conversion header
+
+This file is released to the public domain under US law,
+and also released under any version of the Creative Commons Zero license: 
+https://creativecommons.org/publicdomain/zero/1.0/
+https://creativecommons.org/publicdomain/zero/1.0/legalcode
+
+*/
+
 #ifndef INCLUDE_UNISHIM_H
 #define INCLUDE_UNISHIM_H
 
