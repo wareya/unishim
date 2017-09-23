@@ -60,13 +60,16 @@ assumes that the utf-32 string is in native endian
 
 if an error is encountered, sets status and returns 0:
 
-    0 - no error
-    1 - codepoint is a utf-16 surrogate
-    2 - codepoint is too large to store in utf-16, which is forbidden by modern utf-8
-    3 - failed to allocate return buffer
+```
+0 - no error
+1 - codepoint is a utf-16 surrogate
+2 - codepoint is too large to store in utf-16, which is forbidden by modern utf-8
+3 - failed to allocate return buffer
+```
 
-
-    uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
+```
+uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
+```
 
 allocates and returns a utf-32 string converted from the utf-8 one
 
