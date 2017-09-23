@@ -15,8 +15,13 @@ https://creativecommons.org/publicdomain/zero/1.0/legalcode
 // This might work around broken strict aliasing optimizations that
 // don't allow T* -> void* -> T*, only T* -> char* -> T*.
 
+// #define UNISHIM_NO_STDLIB to not include stdlib.h and not use malloc/free in the code.
+// This prevents utfX_to_utfY functions from being declared.
+
 #include <stdint.h>
+#ifndef UNISHIM_NO_STDLIB
 #include <stdlib.h>
+#endif
 #include <iso646.h>
 
 #ifdef UNISHIM_PUN_TYPE_IS_CHAR
@@ -524,6 +529,8 @@ int utf32_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
     return 0;
 }
 
+
+#ifndef UNISHIM_NO_STDLIB
 // Following six functions: Convert a UTF-X string into a freshly allocated null terminated UTF-Y buffer.
 // If there's any error iterating over the UTF-X string,
 // Status is set to the status code from utfX_iterate (see top of file). This is 0 if there is no error.
@@ -701,5 +708,6 @@ uint32_t * utf16_to_utf32(uint16_t * utf16, int * status)
     utf32[length] = 0;
     return utf32;
 }
+#endif
 
 #endif
