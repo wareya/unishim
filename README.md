@@ -13,6 +13,8 @@ unishim.h - C99/C++ utf-8/utf-16/utf-32 conversion header
     // returned string is freshly allocated from malloc()
     // Input string must NOT be modified by another thread while these functions are running.
 
+unishim_split.h is a more internally complicated version that might be slower but gives a lot more flexibility and exposes more functions. The above summary applies to unishim_split.h as well, in addition to 16<->32 versions.
+
 # explanation
 
     uint8_t * utf16_to_utf8(uint16_t * utf16, int * status)
