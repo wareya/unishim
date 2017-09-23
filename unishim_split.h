@@ -18,6 +18,8 @@ https://creativecommons.org/publicdomain/zero/1.0/legalcode
 // #define UNISHIM_NO_STDLIB to not include stdlib.h and not use malloc/free in the code.
 // This prevents utfX_to_utfY functions from being declared.
 
+// #define UNISHIM_DECLARATION_PREFIX to change the declaration prefix from "static" to anything else
+
 #include <stdint.h>
 #ifndef UNISHIM_NO_STDLIB
 #include <stdlib.h>
@@ -28,6 +30,10 @@ https://creativecommons.org/publicdomain/zero/1.0/legalcode
 #define UNISHIM_PUN_TYPE char
 #else
 #define UNISHIM_PUN_TYPE void
+#endif
+
+#ifndef UNISHIM_DECLARATION_PREFIX
+#define UNISHIM_DECLARATION_PREFIX static
 #endif
 
 typedef int (*unishim_callback)(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata);
@@ -63,7 +69,7 @@ Reads at most "max" CODE UNITS (uint8_t) from the utf8 buffer.
 If "max" is zero, stops at null instead.
 CALLBACK DOES NOT RUN ON NULL TERMINATOR IF MAX IS ZERO.
 */
-int utf8_iterate(uint8_t * utf8, size_t max, unishim_callback callback, void * userdata)
+UNISHIM_DECLARATION_PREFIX int utf8_iterate(uint8_t * utf8, size_t max, unishim_callback callback, void * userdata)
 {
     if(!utf8)
         return -1;
@@ -221,7 +227,7 @@ Reads at most "max" CODE UNITS (uint16_t) from the utf16 buffer.
 If "max" is zero, stops at null instead.
 CALLBACK DOES NOT RUN ON NULL TERMINATOR IF MAX IS ZERO.
 */
-int utf16_iterate(uint16_t * utf16, size_t max, unishim_callback callback, void * userdata)
+UNISHIM_DECLARATION_PREFIX int utf16_iterate(uint16_t * utf16, size_t max, unishim_callback callback, void * userdata)
 {
     if(!utf16)
         return -1;
@@ -301,7 +307,7 @@ Reads at most "max" CODE UNITS (uint32_t) from the utf32 buffer.
 If "max" is zero, stops at null instead.
 CALLBACK DOES NOT RUN ON NULL TERMINATOR IF MAX IS ZERO.
 */
-int utf32_iterate(uint32_t * utf32, size_t max, unishim_callback callback, void * userdata)
+UNISHIM_DECLARATION_PREFIX int utf32_iterate(uint32_t * utf32, size_t max, unishim_callback callback, void * userdata)
 {
     if(!utf32)
         return -1;
@@ -326,7 +332,7 @@ int utf32_iterate(uint32_t * utf32, size_t max, unishim_callback callback, void 
 
 // Returns the number of code units required to encode the given codepoint in utf-8, or zero if it's illegal.
 // This returns 1 for an input of 0.
-int utf8_code_unit_length(uint32_t codepoint)
+UNISHIM_DECLARATION_PREFIX int utf8_code_unit_length(uint32_t codepoint)
 {
     if(codepoint >= 0xD800 and codepoint < 0xE000)
         return 0;
@@ -343,7 +349,7 @@ int utf8_code_unit_length(uint32_t codepoint)
 
 // Returns the number of code units required to encode the given codepoint in utf-16, or zero if it's illegal.
 // This returns 1 for an input of 0.
-int utf16_code_unit_length(uint32_t codepoint)
+UNISHIM_DECLARATION_PREFIX int utf16_code_unit_length(uint32_t codepoint)
 {
     if(codepoint >= 0xD800 and codepoint < 0xE000)
         return 0;
@@ -356,7 +362,7 @@ int utf16_code_unit_length(uint32_t codepoint)
 
 // Returns the number of code units required to encode the given codepoint in utf-32, or zero if it's illegal.
 // This returns 1 for an input of 0.
-int utf32_code_unit_length(uint32_t codepoint)
+UNISHIM_DECLARATION_PREFIX int utf32_code_unit_length(uint32_t codepoint)
 {
     if(codepoint >= 0xD800 and codepoint < 0xE000)
         return 0;
@@ -372,7 +378,7 @@ int utf32_code_unit_length(uint32_t codepoint)
 // If count is not 1, 2, 3, or 4, does nothing and returns 0.
 // Otherwise, returns count.
 // The -1 return takes priority over the 0 return.
-int utf8_encode(uint8_t * utf8, uint32_t codepoint, int count)
+UNISHIM_DECLARATION_PREFIX int utf8_encode(uint8_t * utf8, uint32_t codepoint, int count)
 {
     if(!utf8)
         return -1;
@@ -431,7 +437,7 @@ int utf8_encode(uint8_t * utf8, uint32_t codepoint, int count)
 // If count is not 1 or 2, does nothing and returns 0.
 // Otherwise, returns count.
 // The -1 return takes priority over the 0 return.
-int utf16_encode(uint16_t * utf16, uint32_t codepoint, int count)
+UNISHIM_DECLARATION_PREFIX int utf16_encode(uint16_t * utf16, uint32_t codepoint, int count)
 {
     if(!utf16)
         return -1;
@@ -463,7 +469,7 @@ int utf16_encode(uint16_t * utf16, uint32_t codepoint, int count)
 // If count is not 1, does nothing and returns 0.
 // Otherwise, returns count.
 // The -1 return takes priority over the 0 return.
-int utf32_encode(uint32_t * utf32, uint32_t codepoint, int count)
+UNISHIM_DECLARATION_PREFIX int utf32_encode(uint32_t * utf32, uint32_t codepoint, int count)
 {
     if(!utf32)
         return -1;
@@ -475,7 +481,7 @@ int utf32_encode(uint32_t * utf32, uint32_t codepoint, int count)
     return 0;
 }
 
-int utf8_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
+UNISHIM_DECLARATION_PREFIX int utf8_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 {
     size_t * length = (size_t *)userdata;
     int count = utf8_code_unit_length(codepoint);
@@ -484,7 +490,7 @@ int utf8_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
     return 0;
 }
 
-int utf16_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
+UNISHIM_DECLARATION_PREFIX int utf16_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 {
     size_t * length = (size_t *)userdata;
     int count = utf16_code_unit_length(codepoint);
@@ -493,7 +499,7 @@ int utf16_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
     return 0;
 }
 
-int utf32_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
+UNISHIM_DECLARATION_PREFIX int utf32_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 {
     size_t * length = (size_t *)userdata;
     int count = utf32_code_unit_length(codepoint);
@@ -502,7 +508,7 @@ int utf32_length_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
     return 0;
 }
 
-int utf8_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
+UNISHIM_DECLARATION_PREFIX int utf8_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 {
     uint8_t ** utf8 = (uint8_t **)userdata;
     int count = utf8_code_unit_length(codepoint);
@@ -511,7 +517,7 @@ int utf8_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
     return 0;
 }
 
-int utf16_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
+UNISHIM_DECLARATION_PREFIX int utf16_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 {
     uint16_t ** utf16 = (uint16_t **)userdata;
     int count = utf16_code_unit_length(codepoint);
@@ -520,7 +526,7 @@ int utf16_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
     return 0;
 }
 
-int utf32_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
+UNISHIM_DECLARATION_PREFIX int utf32_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 {
     uint32_t ** utf32 = (uint32_t **)userdata;
     int count = utf32_code_unit_length(codepoint);
@@ -540,7 +546,7 @@ int utf32_encode_callback(uint32_t codepoint, UNISHIM_PUN_TYPE * userdata)
 // If there is any error, status is set to nonzero as described above, and any allocated buffer is freed.
 // If there is any error, 0 is returned. Otherwise, the allocated converted buffer is returned.
 
-uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
+UNISHIM_DECLARATION_PREFIX uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
 {
     size_t length = 0;
     int return_status = 0;
@@ -568,7 +574,7 @@ uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
     return utf16;
 }
 
-uint8_t * utf16_to_utf8(uint16_t * utf16, int * status)
+UNISHIM_DECLARATION_PREFIX uint8_t * utf16_to_utf8(uint16_t * utf16, int * status)
 {
     size_t length = 0;
     int return_status = 0;
@@ -596,7 +602,7 @@ uint8_t * utf16_to_utf8(uint16_t * utf16, int * status)
     return utf8;
 }
 
-uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
+UNISHIM_DECLARATION_PREFIX uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
 {
     size_t length = 0;
     int return_status = 0;
@@ -624,7 +630,7 @@ uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
     return utf32;
 }
 
-uint8_t * utf32_to_utf8(uint32_t * utf32, int * status)
+UNISHIM_DECLARATION_PREFIX uint8_t * utf32_to_utf8(uint32_t * utf32, int * status)
 {
     size_t length = 0;
     int return_status = 0;
@@ -652,7 +658,7 @@ uint8_t * utf32_to_utf8(uint32_t * utf32, int * status)
     return utf8;
 }
 
-uint16_t * utf32_to_utf16(uint32_t * utf32, int * status)
+UNISHIM_DECLARATION_PREFIX uint16_t * utf32_to_utf16(uint32_t * utf32, int * status)
 {
     size_t length = 0;
     int return_status = 0;
@@ -680,7 +686,7 @@ uint16_t * utf32_to_utf16(uint32_t * utf32, int * status)
     return utf16;
 }
 
-uint32_t * utf16_to_utf32(uint16_t * utf16, int * status)
+UNISHIM_DECLARATION_PREFIX uint32_t * utf16_to_utf32(uint16_t * utf16, int * status)
 {
     size_t length = 0;
     int return_status = 0;

@@ -9,9 +9,15 @@ https://creativecommons.org/publicdomain/zero/1.0/
 https://creativecommons.org/publicdomain/zero/1.0/legalcode
 */
 
+// #define UNISHIM_DECLARATION_PREFIX to change the declaration prefix from "static" to anything else
+
 #include <stdint.h>
 #include <stdlib.h>
 #include <iso646.h>
+
+#ifndef UNISHIM_DECLARATION_PREFIX
+#define UNISHIM_DECLARATION_PREFIX static
+#endif
 
 // uint8_t * utf16_to_utf8(uint16_t * utf16, int * status)
 // uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
@@ -34,7 +40,7 @@ if an error is encountered, sets status and returns 0:
 3 - first surrogate or simple codepoint where second surrogate expected
 4 - failed to allocate return buffer
 */
-uint8_t * utf16_to_utf8(uint16_t * utf16, int * status)
+UNISHIM_DECLARATION_PREFIX uint8_t * utf16_to_utf8(uint16_t * utf16, int * status)
 {
     *status = 0;
     uint16_t * counter = utf16;
@@ -171,7 +177,7 @@ if an error is encountered, sets status and returns 0:
 
 error 6 takes priority over error 4 if a surrogate is given overlong encoding
 */
-uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
+UNISHIM_DECLARATION_PREFIX uint16_t * utf8_to_utf16(uint8_t * utf8, int * status)
 {
     *status = 0;
     uint8_t * counter = utf8;
@@ -374,7 +380,7 @@ if an error is encountered, sets status and returns 0:
 2 - codepoint is too large to store in utf-16, which is forbidden by modern utf-8
 3 - failed to allocate return buffer
 */
-uint8_t * utf32_to_utf8(uint32_t * utf32, int * status)
+UNISHIM_DECLARATION_PREFIX uint8_t * utf32_to_utf8(uint32_t * utf32, int * status)
 {
     *status = 0;
     uint32_t * counter = utf32;
@@ -480,7 +486,7 @@ if an error is encountered, sets status and returns 0:
 
 error 6 takes priority over error 4 if a surrogate is given overlong encoding
 */
-uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
+UNISHIM_DECLARATION_PREFIX uint32_t * utf8_to_utf32(uint8_t * utf8, int * status)
 {
     *status = 0;
     uint8_t * counter = utf8;
